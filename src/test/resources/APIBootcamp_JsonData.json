@@ -1,0 +1,59 @@
+[
+    {
+       "requests": [
+          {
+             "name": "GetAllUsers",
+             "data": [
+                {
+                "scenario": "valid all users",
+                "method": "GET",
+                "endpoint": "/uap/users",
+                "statusCode": 200,
+                "statusText": "OK",
+                "authType": "Basic Auth"
+            },
+            {
+                "scenario": "without endpoint",
+                "endpoint": "",
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "authType": "Basic Auth",
+                "method": "GET"
+            },
+            {
+                "scenario": "invalid endpoint",
+                "endpoint": "/uap/user",
+                "statusCode": 404,
+                "statusText": "Not Found",
+                "authType": "Basic Auth",
+                "method": "GET"
+            },
+            {
+                "scenario": "invalid request type",
+                "endpoint": "/uap/users",
+                "statusCode": 405,
+                "statusText": "Method Not Allowed",
+                "authType": "Basic Auth",
+                "method": "POST"
+            },
+            {
+                "scenario": "Invalid Basic Auth",
+                "endpoint": "/uap/users",
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "authType": "invalid Basic Auth",
+                "method": "GET"
+            },
+            {
+                "scenario": "No Auth",
+                "endpoint": "/uap/users",
+                "statusCode": 401,
+                "statusText": "Unauthorized",
+                "authType": "No Auth",
+                "method": "GET"
+            }
+        ]
+           }
+        ]
+    }
+]
