@@ -3,7 +3,7 @@
   <groupId>API_Rest_assured_BDD</groupId>
   <artifactId>API_Rest_assured_BDD</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-   <build>
+ <!--  <build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -17,7 +17,7 @@
 				</configuration>
 			</plugin>		
 		</plugins>
-	</build>
+	</build>-->
   <dependencies>
    <!-- REST Assured -->
     <dependency>
