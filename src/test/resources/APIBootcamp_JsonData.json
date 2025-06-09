@@ -5,7 +5,7 @@
              "name": "GetAllUsers",
              "data": [
                 {
-                "scenario": "valid all users",
+                "scenario": "get all users valid end point",
                 "method": "GET",
                 "endpoint": "/uap/users",
                 "statusCode": 200,
@@ -21,8 +21,8 @@
                 "method": "GET"
             },
             {
-                "scenario": "invalid endpoint",
-                "endpoint": "/uap/user",
+                "scenario": "get all users invalid endpoint",
+                "endpoint": "/uap/userssss",
                 "statusCode": 404,
                 "statusText": "Not Found",
                 "authType": "Basic Auth",
@@ -37,11 +37,13 @@
                 "method": "POST"
             },
             {
-                "scenario": "Invalid Basic Auth",
+                "scenario": "get all users invalid Basic Auth",
                 "endpoint": "/uap/users",
                 "statusCode": 401,
                 "statusText": "Unauthorized",
                 "authType": "invalid Basic Auth",
+				"username" : "numpninja",
+				"password" : "invalid@@",
                 "method": "GET"
             },
             {

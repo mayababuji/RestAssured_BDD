@@ -1,4 +1,6 @@
 package utilities;
+import java.util.Map;
+
 import org.testng.asserts.SoftAssert;
 
 import io.restassured.RestAssured;
@@ -54,7 +56,7 @@ public class APIHelper {
 	            .when().delete(deleteEndpoint);
 
 	    softAssert.assertEquals(deleteResponse.getStatusCode(), 200, "User deletion failed!");
-	    System.out.println("🗑️ User with ID " + userId + " deleted due to mismatch.");
+	    System.out.println(" User with ID " + userId + " deleted due to mismatch.");
 	}
 
 	public APIHelper() {
@@ -71,6 +73,20 @@ public class APIHelper {
 		return RestAssured.given().spec(request).auth().basic(ConfigReader.getProperty("username"),
 				ConfigReader.getProperty("password"));
 	}
+	public RequestSpecification withCustomHeaders(Map<String, String> headers, boolean withAuth) {
+	    RequestSpecification customRequest = RestAssured.given().spec(request);
+
+	    if (withAuth) {
+	        customRequest.auth().basic(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
+	    }
+
+	    for (Map.Entry<String, String> header : headers.entrySet()) {
+	        customRequest.header(header.getKey(), header.getValue());
+	    }
+
+	    return customRequest;
+	}
+
 	public void setResponse(Response response) {
 		this.response = response;
 	}
@@ -85,25 +101,28 @@ public class APIHelper {
 
 	    int expectedStatusCode = parseStatusCode(statusCodeStr, softAssert);
 	    int actualStatusCode = response.getStatusCode();
-
+	    System.out.println("The actual Status Code is: " + response.getStatusCode());
 	    // Validate response status
 	    validateResponseStatus(expectedStatusCode, softAssert);
 
-	    // Log GET /users 200 status
-	    if (expectedStatusCode == 200) {
-	        System.out.println(" GET /users responded with 200 OK.");
+	    if (actualStatusCode == 200 || actualStatusCode == 201) {
+	        String userId = extractUserId();
+	        if (checkAndDeleteUser && shouldDeleteUser(expectedStatusCode, actualStatusCode, userId)) {
+	            deleteUser(userId, softAssert);
+	        }
 	    }
 
-	    // Extract user ID
-	    String userId = extractUserId();
-
-	    // Handle conditional cleanup
-	    if (checkAndDeleteUser && shouldDeleteUser(expectedStatusCode, actualStatusCode, userId)) {
-	        deleteUser(userId, softAssert);
-	    }
 
 	    // Final soft assertion
 	    softAssert.assertAll();
+	}
+	public RequestSpecification noAuth() {
+		return RestAssured.given().spec(request).auth().none();
+
+	}
+	
+	public RequestSpecification invalidAuth(String username,String password) {
+		return RestAssured.given().spec(request).auth().basic(username, password);
 	}
 
 
