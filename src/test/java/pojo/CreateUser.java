@@ -55,6 +55,7 @@ public class CreateUser {
         private String street;
         private String state;
         private String country;
+        
         private int zipCode;
 
         public String getPlotNumber() {
@@ -92,9 +93,11 @@ public class CreateUser {
         public int getZipCode() {
             return zipCode;
         }
+  
 
         public void setZipCode(int zipCode) {
             this.zipCode = zipCode;
         }
+       
     }
 }

@@ -1,4 +1,4 @@
-Feature: Create User API for https://userserviceapp-f5a54828541b.herokuapp.com/uap/users
+Feature: User Management API - Create new User
 
   @stateChanging # heroapp 503 issue work around  fix
   Scenario: Validate create a user with all valid credentials
@@ -63,7 +63,7 @@ Feature: Create User API for https://userserviceapp-f5a54828541b.herokuapp.com/u
     When Admin sends POST Request and request Body with invalid contact number 
     Then The response status code should be "400" Status	
     
-     ##TO TEST worked with heroka fix
+     #TO TEST worked with heroka fix
      @stateChanging # heroapp 503 issue work around  fix
     Scenario: Validate create a user with invalid  email format
     Given Admin set the POST request with the valid request body
@@ -99,4 +99,4 @@ Feature: Create User API for https://userserviceapp-f5a54828541b.herokuapp.com/u
     #Given Admin set the POST request with the valid request body
     #When Admin sends POST Request and request Body with invalid zipcode 
     #Then The response status code should be "400" Status
-    #
+    

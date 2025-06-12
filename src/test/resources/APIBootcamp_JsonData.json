@@ -407,6 +407,507 @@
                         "method": "POST"
                     }
                 ]
+            },
+            {
+                "name": "UpdateUser",
+                "data": [
+                    {
+                        "scenario": "valid update user",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "mayaupdated",
+                        "userLastName": "apiupdated",
+                        "userContactNumber": "{{randomUpdateContactNumber}}",
+                        "userEmailId": "{{randomUpdateEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "on",
+                        "country": "canada",
+                        "zipCode": "12345",
+                        "expectedSchema": {
+                            "type": "object",
+                            "properties": {
+                                "userAddress": {
+                                    "type": "object",
+                                    "properties": {
+                                        "addressId": {
+                                            "type": "integer"
+                                        },
+                                        "plotNumber": {
+                                            "type": "string"
+                                        },
+                                        "street": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "country": {
+                                            "type": "string"
+                                        },
+                                        "zipCode": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "addressId",
+                                        "plotNumber",
+                                        "street",
+                                        "state",
+                                        "country",
+                                        "zipCode"
+                                    ]
+                                },
+                                "userId": {
+                                    "type": "integer"
+                                },
+                                "userFirstName": {
+                                    "type": "string"
+                                },
+                                "userLastName": {
+                                    "type": "string"
+                                },
+                                "userContactNumber": {
+                                    "type": "integer"
+                                },
+                                "userEmailId": {
+                                    "type": "string"
+                                },
+                                "creationTime": {
+                                    "type": "string"
+                                },
+                                "lastModTime": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "userAddress",
+                                "userId",
+                                "userFirstName",
+                                "userLastName",
+                                "userContactNumber",
+                                "userEmailId",
+                                "creationTime",
+                                "lastModTime"
+                            ]
+                        }
+                    },
+                    {
+                        "scenario": "update firstName",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babuji",
+                        "userContactNumber": "9823456891",
+                        "userEmailId": "maayabab@gmail.com",
+                        "plotNumber": "AP-123",
+                        "street": "abc",
+                        "state": "fl",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update lastName",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456891",
+                        "userEmailId": "maayabab@gmail.com",
+                        "plotNumber": "AP-123",
+                        "street": "abc",
+                        "state": "flr",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update contact number",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayabab@gmail.com",
+                        "plotNumber": "AP-123",
+                        "street": "abc",
+                        "state": "flr",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update email",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-123",
+                        "street": "abc",
+                        "state": "flr",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update plot number",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "abc",
+                        "state": "flr",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update street",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "flr",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update state",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "US",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update Country",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "1234"
+                    },
+                    {
+                        "scenario": "update ZipCode",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with existing emailid",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 409,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "Numpy@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with existing contact number",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 409,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "1234567891",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with numeric firstname",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "123",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with numeric lastname",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "123",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with numeric emailid",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": 123,
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with empty firstname",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with empty lastname",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with empty contact number",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with empty emailid",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with invalid emailid",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "123aa..aa",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with invalid phone number",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "0000000000",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with invalid state",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "1123",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with invalid country",
+                        "endpoint": "/uap/updateuser/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "123",
+                        "zipCode": "5678"
+                    },
+                    {
+                        "scenario": "update with invalid endpoint",
+                        "endpoint": "/uap/updateuserssss/{{user_id}}",
+                        "statusCode": 400,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PUT",
+                        "userFirstName": "maya",
+                        "userLastName": "babujiii",
+                        "userContactNumber": "9823456892",
+                        "userEmailId": "maayababu@gmail.com",
+                        "plotNumber": "AP-124",
+                        "street": "xyz",
+                        "state": "miami",
+                        "country": "United States",
+                        "zipCode": "5678"
+                    }
+                ]
+            },
+            {
+                "name": "GetByUserFirstName",
+                "data": [
+                    {
+                        "scenario": "valid userFirstName",
+                        "endpoint": "/uap/users/username/{{user_first_name}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "GET"
+                    },
+                    {
+                        "scenario": "invalid userfirstname",
+                        "endpoint": "/uap/users/username/z12zzzz",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "GET"
+                    }
+                ]
             }
         ]
     }

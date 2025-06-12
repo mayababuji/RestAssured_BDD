@@ -19,10 +19,14 @@ public class APIHelper {
 	private ResponseSpecBuilder responseSpecBuilder;
 	private Response response;
 	private Map<String, Object> testData;
-	private String userEmail;
-	private String userContactNumberUpdate;
-	private String userEmailUpdate;
-	private String userContactNumber;
+//	private String userEmail;
+//	private String userContactNumberUpdate;
+//	private String userEmailUpdate;
+//	private String userContactNumber;
+	 private String userEmail;
+	    private String userEmailUpdate;
+	    private long   userContactNumber;
+	    private long   userContactNumberUpdate;
 	private int parseStatusCode(String statusCodeStr, SoftAssert softAssert) {
 	    try {
 	        return Integer.parseInt(statusCodeStr.trim());
@@ -164,26 +168,31 @@ public class APIHelper {
 		RandomGenerator generator = new RandomGenerator();
 		//String randomContactNumber = generator.generateRandomContactNumber();
 		long randomContactNumber = generator.generateRandomContactNumber();
-		testData.put("randomContactNumber", randomContactNumber);
+		this.userContactNumber = randomContactNumber;
+		
+		//testData.put("randomContactNumber", randomContactNumber);
 		//You must store the generated random email back into your testData map after generating 
 		//it so that it can be used as the expected value during validation.
 		String randomEmail = generator.generateRandomEmail();
-		testData.put("userEmailId", randomEmail);
+		//testData.put("userEmailId", randomEmail);
+		this.userEmail         = randomEmail;
 
 		// Replace placeholders in test data
 //		String userContactNumber = testData.get("user_contact_number").toString().replace("{{randomContactNumber}}",
 //				randomContactNumber);
 		String userContactNumberStr = testData.get("userContactNumber").toString()
 			    .replace("{{randomContactNumber}}", String.valueOf(randomContactNumber));
+		//this.userContactNumber = Long.parseLong(userContactNumberStr);
 		Long userContactNumber = Long.parseLong(userContactNumberStr);//Convert to Long
-		String userEmail = testData.get("userEmailId").toString().replace("{{randomEmail}}", randomEmail);
+		String userEmailstr = testData.get("userEmailId").toString().replace("{{randomEmail}}", randomEmail);
+		//this.userEmail = userEmailstr;
 
 		// Prepare request body with POJO class and set values from JSON data
 		CreateUser createUser = new CreateUser();
 		createUser.setUserFirstName(testData.get("userFirstName").toString());
 		createUser.setUserLastName(testData.get("userLastName").toString());
-		createUser.setUserContactNumber(userContactNumber);
-		createUser.setUserEmailId(userEmail);
+		createUser.setUserContactNumber(this.userContactNumber);
+		createUser.setUserEmailId(this.userEmail = userEmailstr);
 		CreateUser.UserAddress userAddress = new CreateUser.UserAddress();
 		userAddress.setPlotNumber(testData.get("plotNumber").toString());
 		userAddress.setStreet(testData.get("street").toString());
@@ -219,60 +228,69 @@ public class APIHelper {
 
 	}
 	
-	public void validateResponseData(boolean isUpdate) {
-
-		// Extract response fields
-		String responseFirstName = response.jsonPath().getString("userFirstName");
-		String responseLastName = response.jsonPath().getString("userLastName");
-		String responseContactNumber = response.jsonPath().getString("userContactNumber");
-		String responseEmail = response.jsonPath().getString("userEmailId");
-
-		// Extract address fields
-		String responsePlotNumber = response.jsonPath().getString("userAddress.plotNumber");
-		String responseStreet = response.jsonPath().getString("userAddress.street");
-		String responseState = response.jsonPath().getString("userAddress.state");
-		String responseCountry = response.jsonPath().getString("userAddress.country");
-		String responseZipCode = response.jsonPath().getString("userAddress.zipCode");
-
-//		// Choose correct data for validation
-//		String expectedContactNumber = isUpdate ? userContactNumberUpdate : userContactNumber;
-		//String expectedEmail = isUpdate ? userEmailUpdate : userEmail;
-		long expectedContactNumber = Long.parseLong(testData.get("randomContactNumber").toString());
-		long actualContactNumber = response.jsonPath().getLong("userContactNumber");
-
-		System.out.println("Expected: " + expectedContactNumber);
-		System.out.println("Actual: " + actualContactNumber);
-
-		Assert.assertEquals(actualContactNumber, expectedContactNumber, "Contact Number Mismatch!");
-		String expectedEmail = testData.get("userEmailId").toString();
-		String actualEmail = response.jsonPath().getString("userEmailId");
-
-		System.out.println("Expected Email: " + expectedEmail);
-		System.out.println("Actual Email: " + actualEmail);
-
-		Assert.assertEquals(actualEmail, expectedEmail, "Email ID Mismatch!");
-
-
-
-
-
-
-		// Validate response data against request data
-		Assert.assertEquals(responseFirstName, testData.get("userFirstName").toString(), "First Name Mismatch!");
-		Assert.assertEquals(responseLastName, testData.get("userLastName").toString(), "Last Name Mismatch!");
-		//Assert.assertEquals(responseContactNumber, expectedContactNumber, "Contact Number Mismatch!");
-		//Assert.assertEquals(responseEmail, expectedEmail, "Email ID Mismatch!");
-
-		// Validate Address Fields
-		Assert.assertEquals(responsePlotNumber, testData.get("plotNumber").toString(), "Plot Number Mismatch!");
-		Assert.assertEquals(responseStreet, testData.get("street").toString(), "Street Mismatch!");
-		Assert.assertEquals(responseState, testData.get("state").toString(), "State Mismatch!");
-		Assert.assertEquals(responseCountry, testData.get("country").toString(), "Country Mismatch!");
-		Assert.assertEquals(responseZipCode, testData.get("zipCode").toString(), "Zip Code Mismatch!");
-
-		System.out.println("All data validation checks passed successfully!");
-	}
+//	public void validateResponseData(boolean isUpdate) {
+//
+//		// Extract response fields
+//		String responseFirstName = response.jsonPath().getString("userFirstName");
+//		String responseLastName = response.jsonPath().getString("userLastName");
+//		String responseContactNumber = response.jsonPath().getString("userContactNumber");
+//		String responseEmail = response.jsonPath().getString("userEmailId");
+//
+//		// Extract address fields
+//		String responsePlotNumber = response.jsonPath().getString("userAddress.plotNumber");
+//		String responseStreet = response.jsonPath().getString("userAddress.street");
+//		String responseState = response.jsonPath().getString("userAddress.state");
+//		String responseCountry = response.jsonPath().getString("userAddress.country");
+//		String responseZipCode = response.jsonPath().getString("userAddress.zipCode");
+//
+////		// Choose correct data for validation
+////		String expectedContactNumber = isUpdate ? userContactNumberUpdate : userContactNumber;
+////		String expectedEmail = isUpdate ? userEmailUpdate : userEmail;
+//		//old
+////		long expectedContactNumber = Long.parseLong(testData.get("randomContactNumber").toString());
+//		long actualContactNumber = response.jsonPath().getLong("userContactNumber");
+//		//old
+//		//new for update
+//		long expectedContactNumber = isUpdate
+//		        ? Long.parseLong(testData.get("randomContactNumberUpdate").toString())
+//		        : Long.parseLong(testData.get("randomContactNumber").toString());
+//		    String expectedEmail = isUpdate ? testData.get("userEmailIdUpdate").toString() : testData.get("userEmailId").toString();
+//			//new for update
+//
+//		System.out.println("Expected: " + expectedContactNumber);
+//		System.out.println("Actual: " + actualContactNumber);
+//
+//		Assert.assertEquals(actualContactNumber, expectedContactNumber, "Contact Number Mismatch!");
+//		//String expectedEmail = testData.get("userEmailId").toString();
+//		String actualEmail = response.jsonPath().getString("userEmailId");
+//
+//		System.out.println("Expected Email: " + expectedEmail);
+//		System.out.println("Actual Email: " + actualEmail);
+//
+//		Assert.assertEquals(actualEmail, expectedEmail, "Email ID Mismatch!");
+//
+//
+//
+//
+//
+//
+//		// Validate response data against request data
+//		Assert.assertEquals(responseFirstName, testData.get("userFirstName").toString(), "First Name Mismatch!");
+//		Assert.assertEquals(responseLastName, testData.get("userLastName").toString(), "Last Name Mismatch!");
+//		//Assert.assertEquals(responseContactNumber, expectedContactNumber, "Contact Number Mismatch!");
+//		//Assert.assertEquals(responseEmail, expectedEmail, "Email ID Mismatch!");
+//
+//		// Validate Address Fields
+//		Assert.assertEquals(responsePlotNumber, testData.get("plotNumber").toString(), "Plot Number Mismatch!");
+//		Assert.assertEquals(responseStreet, testData.get("street").toString(), "Street Mismatch!");
+//		Assert.assertEquals(responseState, testData.get("state").toString(), "State Mismatch!");
+//		Assert.assertEquals(responseCountry, testData.get("country").toString(), "Country Mismatch!");
+//		Assert.assertEquals(responseZipCode, testData.get("zipCode").toString(), "Zip Code Mismatch!");
+//
+//		System.out.println("All data validation checks passed successfully!");
+//	}
 	
+
 	public Response createUserWithMandatoryFields(String scenario) {
 	    testData = JsonReader.getScenarioData(scenario);
 	    System.out.println("Test data keys: " + testData.keySet());
@@ -420,53 +438,164 @@ public class APIHelper {
 	    Response response;
 ///new //# heroapp 503 issue work around  fix
 
-	    switch (method.toUpperCase()) {
-	        case "POST":
-	        case "DELETE":
-	            response = authRequest.body(createUser).when().request(method, endpoint);
-
-	            // Retry logic for Heroku cold start
-	            if (response.getStatusCode() == 503 || response.asString().contains("Application Error")) {
-	                System.out.println(" Heroku cold start detected. Retrying after 5 seconds...");
-	                try {
-	                    Thread.sleep(5000);
-	                } catch (InterruptedException e) {
-	                    Thread.currentThread().interrupt();
-	                }
-	                response = authRequest.body(createUser).when().request(method, endpoint);
-	            }
-	            break;
-
-	        case "GET":
-	        case "PUT":
-	            response = authRequest.body(createUser).when().request(method, endpoint);
-	            break;
-
-	        default:
-	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
-	    }
-	  ///new//# heroapp 503 issue work around  fix
-
-	    /////working
 //	    switch (method.toUpperCase()) {
 //	        case "POST":
-//	            response = authRequest.body(createUser).when().post(endpoint);
-//	            break;
-//	        case "GET":
-//	            response = authRequest.body(createUser).when().get(endpoint);
-//	            break;
-//	        case "PUT":
-//	            response = authRequest.body(createUser).when().put(endpoint);
-//	            break;
 //	        case "DELETE":
-//	            response = authRequest.body(createUser).when().delete(endpoint);
+//	            response = authRequest.body(createUser).when().request(method, endpoint);
+//
+//	            // Retry logic for Heroku cold start
+//	            if (response.getStatusCode() == 503 || response.asString().contains("Application Error")) {
+//	                System.out.println(" Heroku cold start detected. Retrying after 5 seconds...");
+//	                try {
+//	                    Thread.sleep(5000);
+//	                } catch (InterruptedException e) {
+//	                    Thread.currentThread().interrupt();
+//	                }
+//	                response = authRequest.body(createUser).when().request(method, endpoint);
+//	            }
 //	            break;
+//
+//	        case "GET":
+//	        case "PUT":
+//	        	String userId = TestDataStore.getUserId();
+//	    		 System.out.println("Retrieved User ID to do a PUT request: " + userId);
+//
+//	    		// Get the endpoint from test data and send the PUT request
+//	    		String endpoint_put = testData.get("endpoint").toString().replace("{{user_id}}", userId);
+//	            response = authRequest.body(createUser).when().request(method, endpoint_put);
+//	            System.out.println("Response Status of PUT: " + response.getStatusCode());
+//	            System.out.println("Response Body of PUT: " + response.asString());
+//	        
+//	            break;
+//
 //	        default:
 //	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
 //	    }
+	  ///new//# heroapp 503 issue work around  fix
+
+	    /////working
+	    switch (method.toUpperCase()) {
+	        case "POST":
+	            response = authRequest.body(createUser).when().post(endpoint);
+	            break;
+	        case "GET":
+	            response = authRequest.body(createUser).when().get(endpoint);
+	            break;
+	        case "PUT":
+	        	String userId = TestDataStore.getUserId();
+	    		 System.out.println("Retrieved User ID to do a PUT request: " + userId);
+
+	    		// Get the endpoint from test data and send the PUT request
+	    		String endpoint_put = testData.get("endpoint").toString().replace("{{user_id}}", userId);
+	            response = authRequest.body(createUser).when().request(method, endpoint_put);
+	            System.out.println("Response Status of PUT: " + response.getStatusCode());
+	            System.out.println("Response Body of PUT: " + response.asString());
+	            response = authRequest.body(createUser).when().put(endpoint_put);
+	            break;
+	        case "DELETE":
+	            response = authRequest.body(createUser).when().delete(endpoint);
+	            break;
+	        default:
+	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
+	    }
 	    /////working
 
 	    return response;
+	}
+	
+	public Response updateRequestBody(String scenario, String authType) {
+		testData = JsonReader.getScenarioData(scenario);
+
+		// Choose authentication based on authType parameter
+		RequestSpecification authRequest;
+		switch (authType.toLowerCase()) {
+		case "valid":
+			authRequest = validAuth();
+			break;
+		case "invalid":
+			authRequest = invalidAuth("numpy@gmail.com", "invalid");;
+		case "none":
+			authRequest = noAuth();
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid auth type provided: " + authType);
+		}
+		RandomGenerator generator = new RandomGenerator();
+		long randomContactNumber = generator.generateRandomContactNumber();
+		String randomEmail = generator.generateRandomEmail();
+
+		// Replace placeholders in test data
+		String userContactNumberUpdatestr = testData.get("userContactNumber").toString()
+			    .replace("{{randomUpdateContactNumber}}", String.valueOf(randomContactNumber));
+		this.userContactNumberUpdate = Long.parseLong(userContactNumberUpdatestr);
+		//Long userContactNumberUpdate = Long.parseLong(userContactNumberUpdatestr);
+		String userEmailUpdatestr = testData.get("userEmailId").toString().replace("{{randomUpdateEmail}}", randomEmail);
+		this.userEmailUpdate = userEmailUpdatestr;
+
+		// Prepare request body with POJO class and set values from JSON data
+		CreateUser updateUser = new CreateUser();
+		updateUser.setUserFirstName(testData.get("userFirstName").toString());
+		updateUser.setUserLastName(testData.get("userLastName").toString());
+		updateUser.setUserContactNumber(this.userContactNumberUpdate);
+		updateUser.setUserEmailId(this.userEmailUpdate);
+		CreateUser.UserAddress userAddress = new CreateUser.UserAddress();
+		userAddress.setPlotNumber(testData.get("plotNumber").toString());
+		userAddress.setStreet(testData.get("street").toString());
+		userAddress.setState(testData.get("state").toString());
+		userAddress.setCountry(testData.get("country").toString());
+		userAddress.setZipCode(Integer.parseInt(testData.get("zipCode").toString()));
+		updateUser.setUserAddress(userAddress);
+
+		// Convert the POJO to JSON string using ObjectMapper
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String requestBody = objectMapper.writeValueAsString(updateUser);
+			System.out.println("Request Body JSON: " + requestBody);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String userId = TestDataStore.getUserId();
+		// System.out.println("Retrieved User ID: " + userId);
+
+		// Get the endpoint from test data and send the PUT request
+		String endpoint = testData.get("endpoint").toString().replace("{{user_id}}", userId);
+		response = authRequest.body(updateUser).when().put(endpoint);
+		return response;
+	}
+	public void validateResponseData(boolean isUpdate) {
+
+		// Extract response fields
+		String responseFirstName = response.jsonPath().getString("userFirstName");
+		String responseLastName = response.jsonPath().getString("userLastName");
+		String responseContactNumber = response.jsonPath().getString("userContactNumber");
+		String responseEmail = response.jsonPath().getString("userEmailId");
+
+		// Extract address fields
+		String responsePlotNumber = response.jsonPath().getString("userAddress.plotNumber");
+		String responseStreet = response.jsonPath().getString("userAddress.street");
+		String responseState = response.jsonPath().getString("userAddress.state");
+		String responseCountry = response.jsonPath().getString("userAddress.country");
+		String responseZipCode = response.jsonPath().getString("userAddress.zipCode");
+
+		// Choose correct data for validation
+		long expectedContactNumber = isUpdate ? userContactNumberUpdate : userContactNumber;
+		String expectedEmail = isUpdate ? userEmailUpdate : userEmail;
+
+		// Validate response data against request data
+		Assert.assertEquals(responseFirstName, testData.get("userFirstName").toString(), "First Name Mismatch!");
+		Assert.assertEquals(responseLastName, testData.get("userLastName").toString(), "Last Name Mismatch!");
+		//Assert.assertEquals(responseContactNumber, expectedContactNumber, "Contact Number Mismatch!");
+		Assert.assertEquals(responseEmail, expectedEmail, "Email ID Mismatch!");
+
+		// Validate Address Fields
+		Assert.assertEquals(responsePlotNumber, testData.get("plotNumber").toString(), "Plot Number Mismatch!");
+		Assert.assertEquals(responseStreet, testData.get("street").toString(), "Street Mismatch!");
+		Assert.assertEquals(responseState, testData.get("state").toString(), "State Mismatch!");
+		Assert.assertEquals(responseCountry, testData.get("country").toString(), "Country Mismatch!");
+		Assert.assertEquals(responseZipCode, testData.get("zipCode").toString(), "Zip Code Mismatch!");
+
+		System.out.println("All data validation checks passed successfully!");
 	}
 
 	
