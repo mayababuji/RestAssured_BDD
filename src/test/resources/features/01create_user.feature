@@ -1,6 +1,6 @@
 Feature: User Management API - Create new User
 
-  @stateChanging # heroapp 503 issue work around  fix
+ @debug
   Scenario: Validate create a user with all valid credentials
     Given Admin set the POST request with the valid request body
     When Admin sends a POST request with body to endpoint

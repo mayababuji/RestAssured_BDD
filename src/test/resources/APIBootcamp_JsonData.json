@@ -908,6 +908,120 @@
                         "method": "GET"
                     }
                 ]
+            },
+            {
+                "name": "DeleteByUserID",
+                "data": [
+                    {
+                        "scenario": "valid delete by userid",
+                        "endpoint": "/uap/deleteuser/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "DELETE"
+                    },
+                    {
+                        "scenario": "delete by invalid userid",
+                        "endpoint": "/uap/deleteuser/0009",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "DELETE"
+                    },
+                    {
+                        "scenario": "delete by already deletedId",
+                        "endpoint": "/uap/deleteuser/{{user_id}}",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "DELETE"
+                    },
+                    {
+                        "scenario": "delete by userid as alphanumeric",
+                        "endpoint": "/uap/deleteuser/abc123",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "DELETE"
+                    },
+                    {
+                        "scenario": "delete without endpoint",
+                        "endpoint": "",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "DELETE"
+                    },
+                    {
+                        "name": "DeleteByUserID",
+                        "data": [
+                            {
+                                "scenario": "valid delete by userid",
+                                "endpoint": "/uap/deleteuser/{{user_id}}",
+                                "statusCode": 200,
+                                "statusText": "OK",
+                                "authType": "Basic Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete by invalid userid",
+                                "endpoint": "/uap/deleteuser/0222",
+                                "statusCode": 404,
+                                "statusText": "Not Found",
+                                "authType": "Basic Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete by already deletedid",
+                                "endpoint": "/uap/deleteuser/{{user_id}}",
+                                "statusCode": 404,
+                                "statusText": "Not Found",
+                                "authType": "Basic Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete without endpoint",
+                                "endpoint": "",
+                                "statusCode": 404,
+                                "statusText": "Not Found",
+                                "authType": "Basic Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete with invalid endpoint",
+                                "endpoint": "/uap/delete/{{user_id}}",
+                                "statusCode": 404,
+                                "statusText": "Not Found",
+                                "authType": "Basic Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete_with_invalid_request_type",
+                                "endpoint": "/uap/deleteuser/{{user_id}}",
+                                "statusCode": 405,
+                                "statusText": "OK",
+                                "authType": "Basic Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete with no Auth",
+                                "endpoint": "/uap/deleteuser/{{user_id}}",
+                                "statusCode": 401,
+                                "statusText": "Unauthorized",
+                                "authType": "No Auth",
+                                "method": "DELETE"
+                            },
+                            {
+                                "scenario": "delete with invalid basic Auth",
+                                "endpoint": "/uap/deleteuser/{{user_id}}",
+                                "statusCode": 401,
+                                "statusText": "Unauthorized",
+                                "authType": "invalid Basic Auth",
+                                "method": "DELETE"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }
