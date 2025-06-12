@@ -8,6 +8,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
     features = "src/test/resources/features",
     glue = {"stepdefinitions", "hooks"},
+    //tags = "@stateChanging",
     plugin = {"pretty", "html:target/cucumber-reports.html",
     		"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
     		"json:target/cucumber-reports/cucumber.json",

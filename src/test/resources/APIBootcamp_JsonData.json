@@ -1,164 +1,413 @@
-
 [
     {
-       "requests": [
-        {
-            "name": "GetAllUsers",
-            "data": [
-               {
-               "scenario": "get all users valid end point",
-               "method": "GET",
-               "endpoint": "/uap/users",
-               "statusCode": 200,
-               "statusText": "OK",
-               "authType": "Basic Auth"
-           },
-           {
-               "scenario": "without endpoint",
-               "endpoint": "",
-               "statusCode": 404,
-               "statusText": "Not Found",
-               "authType": "Basic Auth",
-               "method": "GET"
-           },
-           {
-               "scenario": "get all users invalid endpoint",
-               "endpoint": "/uap/userssss",
-               "statusCode": 404,
-               "statusText": "Not Found",
-               "authType": "Basic Auth",
-               "method": "GET"
-           },
-           {
-               "scenario": "invalid request type",
-               "endpoint": "/uap/users",
-               "statusCode": 405,
-               "statusText": "Method Not Allowed",
-               "authType": "Basic Auth",
-               "method": "POST"
-           },
-           {
-               "scenario": "get all users invalid Basic Auth",
-               "endpoint": "/uap/users",
-               "statusCode": 401,
-               "statusText": "Unauthorized",
-               "authType": "invalid Basic Auth",
-               "username" : "numpninja",
-               "password" : "invalid@@",
-               "method": "GET"
-           },
-           {
-               "scenario": "No Auth",
-               "endpoint": "/uap/users",
-               "statusCode": 401,
-               "statusText": "Unauthorized",
-               "authType": "No Auth",
-               "method": "GET"
-           }
-        ]
-           },
-           {
-            "name": "CreateUser",
-            "data": [
-               {
-                    "scenario": "valid create user",
-                    "endpoint": "/uap/createusers",
-                    "statusCode": 201,
-                    "statusText": "Created",
-                    "authType": "Basic Auth",
-                    "method": "POST",
-                    "userFirstName": "maya",
-                    "userLastName": "api",
-                    "userContactNumber": "{{randomContactNumber}}",
-                    "userEmailId": "{{randomEmail}}",
-                    "plotNumber": "pl-123",
-                    "street": "avenue",
-                    "state": "nj",
-                    "country": "usa",
-                    "zipCode": 54321,
-                    "expectedSchema": {
-                        "type": "object",
-                        "properties": {
-                           "userAddress": {
-                              "type": "object",
-                              "properties": {
-                                 "addressId": { "type": "integer" },
-                                 "plotNumber": { "type": "string" },
-                                 "street": { "type": "string" },
-                                 "state": { "type": "string" },
-                                 "country": { "type": "string" },
-                                 "zipCode": { "type": "integer" }
-                              },
-                              "required": ["addressId", "plotNumber", "street", "state", "country", "zipCode"]
-                           },
-                           "userId": { "type": "integer" },
-                           "userFirstName": { "type": "string" },
-                           "userLastName": { "type": "string" },
-                           "userContactNumber": { "type": "integer" },
-                           "userEmailId": { "type": "string" },
-                           "creationTime": { "type": "string" },
-                           "lastModTime": { "type": "string" }
-                        },
-                        "required": [
-                           "userAddress",
-                           "userId",
-                           "userFirstName",
-                           "userLastName",
-                           "userContactNumber",
-                           "userEmailId",
-                           "creationTime",
-                           "lastModTime"
-                        ]
+        "requests": [
+            {
+                "name": "GetAllUsers",
+                "data": [
+                    {
+                        "scenario": "get all users valid end point",
+                        "method": "GET",
+                        "endpoint": "/uap/users",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth"
+                    },
+                    {
+                        "scenario": "without endpoint",
+                        "endpoint": "",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "GET"
+                    },
+                    {
+                        "scenario": "get all users invalid endpoint",
+                        "endpoint": "/uap/userssss",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "GET"
+                    },
+                    {
+                        "scenario": "invalid request type",
+                        "endpoint": "/uap/users",
+                        "statusCode": 405,
+                        "statusText": "Method Not Allowed",
+                        "authType": "Basic Auth",
+                        "method": "POST"
+                    },
+                    {
+                        "scenario": "get all users invalid Basic Auth",
+                        "endpoint": "/uap/users",
+                        "statusCode": 401,
+                        "statusText": "Unauthorized",
+                        "authType": "invalid Basic Auth",
+                        "username": "numpninja",
+                        "password": "invalid@@",
+                        "method": "GET"
+                    },
+                    {
+                        "scenario": "No Auth",
+                        "endpoint": "/uap/users",
+                        "statusCode": 401,
+                        "statusText": "Unauthorized",
+                        "authType": "No Auth",
+                        "method": "GET"
                     }
-                },
-				{
-				                    "scenario": "valid only mandatory",
-				                    "endpoint": "/uap/createusers",
-				                    "statusCode": 201,
-				                    "statusText": "Created",
-				                    "authType": "Basic Auth",
-				                    "method": "POST",
-				                    "userFirstName": "maya",
-				                    "userLastName": "api",
-				                    "userContactNumber": "{{randomContactNumber}}",
-				                    "userEmailId": "{{randomEmail}}"
-				                },
-								{
-								                    "scenario": "create user invalid endpoint",
-								                    "endpoint": "/uap/createinvalid",
-								                    "statusCode": 404,
-								                    "statusText": "Not Found",
-								                    "authType": "Basic Auth",
-								                    "method": "POST",
-								                    "userFirstName": "maya",
-								                    "userLastName": "api",
-								                    "userContactNumber": "{{randomContactNumber}}",
-								                    "userEmailId": "{{randomEmail}}",
-								                    "plotNumber": "pl-123",
-								                    "street": "avenue",
-								                    "state": "nj",
-								                    "country": "usa",
-								                    "zipCode": "54321"
-								                },
-												{
-												                  "scenario": "invalid same contact number",
-												                  "endpoint": "/uap/createusers",
-												                  "statusCode": 409,
-												                  "statusText": "Conflict",
-												                  "authType": "Basic Auth",
-												                  "method": "POST",
-												                  "userFirstName": "maya",
-												                  "userLastName": "api",
-												                  "userContactNumber": "1234567891",
-												                  "userEmailId": "{{randomEmail}}",
-												                  "plotNumber": "pl-123",
-												                  "street": "avenue",
-												                  "state": "NJ",
-												                  "country": "usa",
-												                  "zipCode": "54321"
-												              }
-            ]
-           }
+                ]
+            },
+            {
+                "name": "CreateUser",
+                "data": [
+                    {
+                        "scenario": "valid create user",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 201,
+                        "statusText": "Created",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": 54321,
+                        "expectedSchema": {
+                            "type": "object",
+                            "properties": {
+                                "userAddress": {
+                                    "type": "object",
+                                    "properties": {
+                                        "addressId": {
+                                            "type": "integer"
+                                        },
+                                        "plotNumber": {
+                                            "type": "string"
+                                        },
+                                        "street": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "country": {
+                                            "type": "string"
+                                        },
+                                        "zipCode": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "addressId",
+                                        "plotNumber",
+                                        "street",
+                                        "state",
+                                        "country",
+                                        "zipCode"
+                                    ]
+                                },
+                                "userId": {
+                                    "type": "integer"
+                                },
+                                "userFirstName": {
+                                    "type": "string"
+                                },
+                                "userLastName": {
+                                    "type": "string"
+                                },
+                                "userContactNumber": {
+                                    "type": "integer"
+                                },
+                                "userEmailId": {
+                                    "type": "string"
+                                },
+                                "creationTime": {
+                                    "type": "string"
+                                },
+                                "lastModTime": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "userAddress",
+                                "userId",
+                                "userFirstName",
+                                "userLastName",
+                                "userContactNumber",
+                                "userEmailId",
+                                "creationTime",
+                                "lastModTime"
+                            ]
+                        }
+                    },
+                    {
+                        "scenario": "valid only mandatory",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 201,
+                        "statusText": "Created",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}"
+                    },
+                    {
+                        "scenario": "create user invalid endpoint",
+                        "endpoint": "/uap/createinvalid",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "22321"
+                    },
+                    {
+                        "scenario": "invalid same contact number",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 409,
+                        "statusText": "Conflict",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "1234567891",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "NJ",
+                        "country": "usa",
+                        "zipCode": "24301"
+                    },
+                    {
+                        "scenario": "invalid same email id",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 409,
+                        "useRandomEmail": false,
+                        "statusText": "Conflict",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "Numpy@gmail.com",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "NJ",
+                        "country": "usa",
+                        "zipCode": "93301"
+                    },
+                    {
+                        "scenario": "no auth",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 401,
+                        "statusText": "Unauthorized",
+                        "authType": "No Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "NJ",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid firstName as numeric",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "1995",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid last name as numeric",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "12042",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid contact number",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "0192",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid email",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "gmail",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid plot number",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "@@@@@",
+                        "street": "avenue",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid street as numeric",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "@@@123",
+                        "state": "nj",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid state",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "",
+                        "country": "usa",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid country",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "maya",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "NJ",
+                        "country": "@@us!!!",
+                        "zipCode": "96186"
+                    },
+                    {
+                        "scenario": "invalid zipcode",
+                        "endpoint": "/uap/createusers",
+                        "statusCode": 400,
+                        "statusText": "Bad Request",
+                        "authType": "Basic Auth",
+                        "method": "POST",
+                        "userFirstName": "mayazip",
+                        "userLastName": "api",
+                        "userContactNumber": "{{randomContactNumber}}",
+                        "userEmailId": "{{randomEmail}}",
+                        "plotNumber": "pl-123",
+                        "street": "avenue",
+                        "state": "NJ",
+                        "country": "usa",
+                        "zipCode": ""
+                    }
+                ]
+            },
+            {
+                "name": "GetByUserID",
+                "data": [
+                    {
+                        "scenario": "valid userid",
+                        "endpoint": "/uap/user/{{user_id}}",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "GET"
+                    },
+                    {
+                        "scenario": "invalid userid",
+                        "endpoint": "/uap/user/000010",
+                        "statusCode": 404,
+                        "statusText": "Not Found",
+                        "authType": "Basic Auth",
+                        "method": "GET"
+                    },
+                    {
+                        "scenario": "invalid request type",
+                        "endpoint": "/uap/user/{{user_id}}",
+                        "statusCode": 405,
+                        "statusText": "Method Not Allowed",
+                        "authType": "Basic Auth",
+                        "method": "POST"
+                    }
+                ]
+            }
         ]
     }
 ]

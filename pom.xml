@@ -5,7 +5,17 @@
   <version>0.0.1-SNAPSHOT</version>
  
   <dependencies>
-   <!-- REST Assured -->
+   <!-- REST Assured, Spring Boot, or Cucumber dependencies bring Jackson 
+   in under the hood Then Jackson is already coming in as a transitive dependency
+    via json-path or groovy dependencies used internally..you can confirm that by doing mvn dependency:tree | grep jackson on Run this in your project folder:
+    [INFO] | | +- com.fasterxml.jackson.core:jackson-databind:jar:2.18.0:compile
+[INFO] | | | +- com.fasterxml.jackson.core:jackson-annotations:jar:2.18.0:compile
+[INFO] | | | \- com.fasterxml.jackson.core:jackson-core:jar:2.18.0:compile
+[INFO] | | +- org.yaml:snakeyaml:jar:2.3:compile
+[INFO] | | +- com.azure:azure-storage-blob:jar:12.28.0:provided
+[INFO] | | | +- com.azure:azure-core:jar:1.52.0:provided
+[INFO] | | | | +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.17.2:provided
+Even though it works, it's good practice to explicitly declare dependencies you use directly in your code for version control of jackson bind -->
     <dependency>
         <groupId>io.rest-assured</groupId>
         <artifactId>rest-assured</artifactId>

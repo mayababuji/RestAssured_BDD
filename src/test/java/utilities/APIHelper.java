@@ -345,18 +345,39 @@ public class APIHelper {
 	            throw new IllegalArgumentException("Invalid auth type: " + authType);
 	    }
 
-	    // Generate random data
 	    RandomGenerator generator = new RandomGenerator();
-	    long randomContactNumber = generator.generateRandomContactNumber();
-	    String randomEmail = generator.generateRandomEmail();
-	    testData.put("randomContactNumber", randomContactNumber);
-	    testData.put("userEmailId", randomEmail);
 
-	    // Replace placeholders
-	    String userContactNumberStr = testData.get("userContactNumber").toString()
-	            .replace("{{randomContactNumber}}", String.valueOf(randomContactNumber));
+	    // Generate random contact number and replace in test data and later in POJO
+	    long randomContactNumber = generator.generateRandomContactNumber();
+	    testData.put("randomContactNumber", randomContactNumber);
+
+	    // Handle email replacement
+	    boolean useRandomEmail = false;
+	    if (testData.containsKey("useRandomEmail")) {
+	        useRandomEmail = Boolean.parseBoolean(testData.get("useRandomEmail").toString());
+	    }
+
+	    String userEmailTemplate = testData.get("userEmailId").toString();
+
+	    String userEmail;
+	    if (useRandomEmail) {
+	        // Use a generated random email no matter what is in the template
+	        userEmail = generator.generateRandomEmail();
+	    } else if (userEmailTemplate.contains("{{randomEmail}}")) {
+	        // Replace placeholder with random email if present
+	        String randomEmail = generator.generateRandomEmail();
+	        userEmail = userEmailTemplate.replace("{{randomEmail}}", randomEmail);
+	    } else {
+	        // Use the original email as is
+	        userEmail = userEmailTemplate;
+	    }
+
+	    // Replace contact number placeholder if present in contact number string
+	    String userContactNumberStr = testData.get("userContactNumber").toString();
+	    if (userContactNumberStr.contains("{{randomContactNumber}}")) {
+	        userContactNumberStr = userContactNumberStr.replace("{{randomContactNumber}}", String.valueOf(randomContactNumber));
+	    }
 	    Long userContactNumber = Long.parseLong(userContactNumberStr);
-	    String userEmail = testData.get("userEmailId").toString().replace("{{randomEmail}}", randomEmail);
 
 	    // Build POJO
 	    CreateUser createUser = new CreateUser();
@@ -372,6 +393,17 @@ public class APIHelper {
 	    userAddress.setCountry(testData.get("country").toString());
 	    userAddress.setZipCode(Integer.parseInt(testData.get("zipCode").toString()));
 	    createUser.setUserAddress(userAddress);
+	    //new
+//	    String zipCodeStr = testData.get("zipCode").toString();
+//	    try {
+//	        userAddress.setZipCode(Integer.parseInt(zipCodeStr));
+//	    } catch (NumberFormatException e) {
+//	        // Optional: log error
+//	        System.out.println("Invalid zip code format: " + zipCodeStr);
+//	        userAddress.setZipCode(-1); // or some sentinel value
+//	    }
+	    //new
+
 
 	    // Log request JSON
 	    try {
@@ -385,25 +417,60 @@ public class APIHelper {
 	    // Get endpoint and send request using method param
 	    String endpoint = testData.get("endpoint").toString();
 
+	    Response response;
+///new //# heroapp 503 issue work around  fix
+
 	    switch (method.toUpperCase()) {
 	        case "POST":
-	            response = authRequest.body(createUser).when().post(endpoint);
-	            break;
-	        case "GET":
-	            response = authRequest.body(createUser).when().get(endpoint);
-	            break;
-	        case "PUT":
-	            response = authRequest.body(createUser).when().put(endpoint);
-	            break;
 	        case "DELETE":
-	            response = authRequest.body(createUser).when().delete(endpoint);
+	            response = authRequest.body(createUser).when().request(method, endpoint);
+
+	            // Retry logic for Heroku cold start
+	            if (response.getStatusCode() == 503 || response.asString().contains("Application Error")) {
+	                System.out.println(" Heroku cold start detected. Retrying after 5 seconds...");
+	                try {
+	                    Thread.sleep(5000);
+	                } catch (InterruptedException e) {
+	                    Thread.currentThread().interrupt();
+	                }
+	                response = authRequest.body(createUser).when().request(method, endpoint);
+	            }
 	            break;
+
+	        case "GET":
+	        case "PUT":
+	            response = authRequest.body(createUser).when().request(method, endpoint);
+	            break;
+
 	        default:
 	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
 	    }
+	  ///new//# heroapp 503 issue work around  fix
+
+	    /////working
+//	    switch (method.toUpperCase()) {
+//	        case "POST":
+//	            response = authRequest.body(createUser).when().post(endpoint);
+//	            break;
+//	        case "GET":
+//	            response = authRequest.body(createUser).when().get(endpoint);
+//	            break;
+//	        case "PUT":
+//	            response = authRequest.body(createUser).when().put(endpoint);
+//	            break;
+//	        case "DELETE":
+//	            response = authRequest.body(createUser).when().delete(endpoint);
+//	            break;
+//	        default:
+//	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
+//	    }
+	    /////working
 
 	    return response;
 	}
+
+	
+
 
 	
 	
