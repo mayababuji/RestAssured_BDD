@@ -19,10 +19,7 @@ public class APIHelper {
 	private ResponseSpecBuilder responseSpecBuilder;
 	private Response response;
 	private Map<String, Object> testData;
-//	private String userEmail;
-//	private String userContactNumberUpdate;
-//	private String userEmailUpdate;
-//	private String userContactNumber;
+
 	 private String userEmail;
 	    private String userEmailUpdate;
 	    private long   userContactNumber;
@@ -166,11 +163,11 @@ public class APIHelper {
 		}
 
 		RandomGenerator generator = new RandomGenerator();
-		//String randomContactNumber = generator.generateRandomContactNumber();
+
 		long randomContactNumber = generator.generateRandomContactNumber();
 		this.userContactNumber = randomContactNumber;
 		
-		//testData.put("randomContactNumber", randomContactNumber);
+		
 		//You must store the generated random email back into your testData map after generating 
 		//it so that it can be used as the expected value during validation.
 		String randomEmail = generator.generateRandomEmail();
@@ -178,14 +175,13 @@ public class APIHelper {
 		this.userEmail         = randomEmail;
 
 		// Replace placeholders in test data
-//		String userContactNumber = testData.get("user_contact_number").toString().replace("{{randomContactNumber}}",
-//				randomContactNumber);
+
 		String userContactNumberStr = testData.get("userContactNumber").toString()
 			    .replace("{{randomContactNumber}}", String.valueOf(randomContactNumber));
-		//this.userContactNumber = Long.parseLong(userContactNumberStr);
+		
 		Long userContactNumber = Long.parseLong(userContactNumberStr);//Convert to Long
 		String userEmailstr = testData.get("userEmailId").toString().replace("{{randomEmail}}", randomEmail);
-		//this.userEmail = userEmailstr;
+		
 
 		// Prepare request body with POJO class and set values from JSON data
 		CreateUser createUser = new CreateUser();
@@ -227,68 +223,6 @@ public class APIHelper {
 		}
 
 	}
-	
-//	public void validateResponseData(boolean isUpdate) {
-//
-//		// Extract response fields
-//		String responseFirstName = response.jsonPath().getString("userFirstName");
-//		String responseLastName = response.jsonPath().getString("userLastName");
-//		String responseContactNumber = response.jsonPath().getString("userContactNumber");
-//		String responseEmail = response.jsonPath().getString("userEmailId");
-//
-//		// Extract address fields
-//		String responsePlotNumber = response.jsonPath().getString("userAddress.plotNumber");
-//		String responseStreet = response.jsonPath().getString("userAddress.street");
-//		String responseState = response.jsonPath().getString("userAddress.state");
-//		String responseCountry = response.jsonPath().getString("userAddress.country");
-//		String responseZipCode = response.jsonPath().getString("userAddress.zipCode");
-//
-////		// Choose correct data for validation
-////		String expectedContactNumber = isUpdate ? userContactNumberUpdate : userContactNumber;
-////		String expectedEmail = isUpdate ? userEmailUpdate : userEmail;
-//		//old
-////		long expectedContactNumber = Long.parseLong(testData.get("randomContactNumber").toString());
-//		long actualContactNumber = response.jsonPath().getLong("userContactNumber");
-//		//old
-//		//new for update
-//		long expectedContactNumber = isUpdate
-//		        ? Long.parseLong(testData.get("randomContactNumberUpdate").toString())
-//		        : Long.parseLong(testData.get("randomContactNumber").toString());
-//		    String expectedEmail = isUpdate ? testData.get("userEmailIdUpdate").toString() : testData.get("userEmailId").toString();
-//			//new for update
-//
-//		System.out.println("Expected: " + expectedContactNumber);
-//		System.out.println("Actual: " + actualContactNumber);
-//
-//		Assert.assertEquals(actualContactNumber, expectedContactNumber, "Contact Number Mismatch!");
-//		//String expectedEmail = testData.get("userEmailId").toString();
-//		String actualEmail = response.jsonPath().getString("userEmailId");
-//
-//		System.out.println("Expected Email: " + expectedEmail);
-//		System.out.println("Actual Email: " + actualEmail);
-//
-//		Assert.assertEquals(actualEmail, expectedEmail, "Email ID Mismatch!");
-//
-//
-//
-//
-//
-//
-//		// Validate response data against request data
-//		Assert.assertEquals(responseFirstName, testData.get("userFirstName").toString(), "First Name Mismatch!");
-//		Assert.assertEquals(responseLastName, testData.get("userLastName").toString(), "Last Name Mismatch!");
-//		//Assert.assertEquals(responseContactNumber, expectedContactNumber, "Contact Number Mismatch!");
-//		//Assert.assertEquals(responseEmail, expectedEmail, "Email ID Mismatch!");
-//
-//		// Validate Address Fields
-//		Assert.assertEquals(responsePlotNumber, testData.get("plotNumber").toString(), "Plot Number Mismatch!");
-//		Assert.assertEquals(responseStreet, testData.get("street").toString(), "Street Mismatch!");
-//		Assert.assertEquals(responseState, testData.get("state").toString(), "State Mismatch!");
-//		Assert.assertEquals(responseCountry, testData.get("country").toString(), "Country Mismatch!");
-//		Assert.assertEquals(responseZipCode, testData.get("zipCode").toString(), "Zip Code Mismatch!");
-//
-//		System.out.println("All data validation checks passed successfully!");
-//	}
 	
 
 	public Response createUserWithMandatoryFields(String scenario) {
