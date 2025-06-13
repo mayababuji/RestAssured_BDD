@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import utilities.APIHelper;
-import pojo.PatchUser;
+
 import utilities.TestDataStore;
 import io.restassured.specification.RequestSpecification;
 
