@@ -52,5 +52,70 @@ public class PatchUserSteps {
 			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
 			return response;
 	}
+	
+	@When("Admin sends PATCH Request with request Body for user email id")
+	public Response admin_sends_patch_request_with_request_body_for_user_email_id() {
+		response = apihelper.sendRequestWithBody("patchEmailId", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+	
+	@When("Admin sends PATCH Request with request Body for user plotNumber")
+	public Response admin_sends_patch_request_with_request_body_for_user_plot_number() {
+		response = apihelper.sendRequestWithBody("patchPlotNumber", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+	
+	@When("Admin sends PATCH Request with request Body for user street")
+	public Response admin_sends_patch_request_with_request_body_for_user_street() {
+		response = apihelper.sendRequestWithBody("patchStreet", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+	
+	
+	@When("Admin sends PATCH Request with request Body for user state")
+	public Response admin_sends_patch_request_with_request_body_for_user_state() {
+		response = apihelper.sendRequestWithBody("patchState", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+
+	@When("Admin sends PATCH Request with request Body for user country")
+	public Response admin_sends_patch_request_with_request_body_for_user_country() {
+		response = apihelper.sendRequestWithBody("patchCountry", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+
+	@When("Admin sends PATCH Request with request Body for user zipCode")
+	public Response admin_sends_patch_request_with_request_body_for_user_zip_code() {
+		response = apihelper.sendRequestWithBody("patchZipCode", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+	
+	@When("Admin sends PATCH Request with request Body for user firstname and lastname")
+	public Response admin_sends_patch_request_with_request_body_for_user_firstname_and_lastname() {
+		response = apihelper.sendRequestWithBody("patchFirstLastName", "valid","PATCH");
+		 System.out.println("Raw Response: " + response.asString());
+		 TestDataStore.setUserId(response.jsonPath().getString("userId"));
+			System.out.println("Stored User ID in TestDataStore: " + TestDataStore.getUserId());
+			return response;
+	}
+
 
 }

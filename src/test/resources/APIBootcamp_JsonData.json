@@ -30,6 +30,70 @@
                         "statusText": "OK",
                         "authType": "Basic Auth",
                         "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchEmailId",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "userEmailId": "mayababujiupdated@outlook.com",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchPlotNumber",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "plotNumber": "kl-999",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchStreet",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "street": "mavel",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchState",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "state": "krlal",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchZipCode",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "zipCode": "690101",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchCountry",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "country": "krlal",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchFirstLastName",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "userFirstName": "mayaupdatedone",
+                        "userLastName": "mayaupdatedlastnameone",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
                     }
                 ]
             },
