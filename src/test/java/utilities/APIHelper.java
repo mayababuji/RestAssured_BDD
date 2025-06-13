@@ -341,13 +341,13 @@ public class APIHelper {
 	
 	public Response sendRequestWithBody(String scenario, String authType, String method) {
 	    testData = JsonReader.getScenarioData(scenario);
-	    System.out.println("Loaded test data for scenario: " + scenario);
-
 	    if (testData == null) {
 	        throw new RuntimeException("Test data is null for scenario: " + scenario);
 	    }
 
-	    // Choose authentication
+	    System.out.println("Loaded test data for scenario: " + scenario);
+
+	    // Setup auth
 	    RequestSpecification authRequest;
 	    switch (authType.toLowerCase()) {
 	        case "valid":
@@ -365,143 +365,139 @@ public class APIHelper {
 
 	    RandomGenerator generator = new RandomGenerator();
 
-	    // Generate random contact number and replace in test data and later in POJO
+	    // Prepare random contact number
 	    long randomContactNumber = generator.generateRandomContactNumber();
 	    testData.put("randomContactNumber", randomContactNumber);
 
-	    // Handle email replacement
-	    boolean useRandomEmail = false;
-	    if (testData.containsKey("useRandomEmail")) {
-	        useRandomEmail = Boolean.parseBoolean(testData.get("useRandomEmail").toString());
+	    // Handle email
+	    boolean useRandomEmail = testData.containsKey("useRandomEmail") &&
+	                             Boolean.parseBoolean(testData.get("useRandomEmail").toString());
+
+	    String userEmail = null;
+	    if (testData.containsKey("userEmailId") && testData.get("userEmailId") != null) {
+	        String userEmailTemplate = testData.get("userEmailId").toString();
+	        if (useRandomEmail) {
+	            userEmail = generator.generateRandomEmail();
+	        } else if (userEmailTemplate.contains("{{randomEmail}}")) {
+	            String randomEmail = generator.generateRandomEmail();
+	            userEmail = userEmailTemplate.replace("{{randomEmail}}", randomEmail);
+	        } else {
+	            userEmail = userEmailTemplate;
+	        }
 	    }
 
-	    String userEmailTemplate = testData.get("userEmailId").toString();
-
-	    String userEmail;
-	    if (useRandomEmail) {
-	        // Use a generated random email no matter what is in the template
-	        userEmail = generator.generateRandomEmail();
-	    } else if (userEmailTemplate.contains("{{randomEmail}}")) {
-	        // Replace placeholder with random email if present
-	        String randomEmail = generator.generateRandomEmail();
-	        userEmail = userEmailTemplate.replace("{{randomEmail}}", randomEmail);
-	    } else {
-	        // Use the original email as is
-	        userEmail = userEmailTemplate;
+	    // Handle contact number
+	    Long userContactNumber = null;
+	    if (testData.containsKey("userContactNumber") && testData.get("userContactNumber") != null) {
+	        String userContactNumberStr = testData.get("userContactNumber").toString();
+	        if (userContactNumberStr.contains("{{randomContactNumber}}")) {
+	            userContactNumberStr = userContactNumberStr.replace("{{randomContactNumber}}", String.valueOf(randomContactNumber));
+	        }
+	        try {
+	            userContactNumber = Long.parseLong(userContactNumberStr);
+	        } catch (NumberFormatException e) {
+	            System.out.println("Invalid userContactNumber format: " + userContactNumberStr);
+	        }
 	    }
 
-	    // Replace contact number placeholder if present in contact number string
-	    String userContactNumberStr = testData.get("userContactNumber").toString();
-	    if (userContactNumberStr.contains("{{randomContactNumber}}")) {
-	        userContactNumberStr = userContactNumberStr.replace("{{randomContactNumber}}", String.valueOf(randomContactNumber));
-	    }
-	    Long userContactNumber = Long.parseLong(userContactNumberStr);
-
-	    // Build POJO
+	    // Build POJO - set only fields present in testData (for PATCH especially)
 	    CreateUser createUser = new CreateUser();
-	    createUser.setUserFirstName(testData.get("userFirstName").toString());
-	    createUser.setUserLastName(testData.get("userLastName").toString());
-	    createUser.setUserContactNumber(userContactNumber);
-	    createUser.setUserEmailId(userEmail);
 
-	    CreateUser.UserAddress userAddress = new CreateUser.UserAddress();
-	    userAddress.setPlotNumber(testData.get("plotNumber").toString());
-	    userAddress.setStreet(testData.get("street").toString());
-	    userAddress.setState(testData.get("state").toString());
-	    userAddress.setCountry(testData.get("country").toString());
-	    userAddress.setZipCode(Integer.parseInt(testData.get("zipCode").toString()));
-	    createUser.setUserAddress(userAddress);
-	    //new
-//	    String zipCodeStr = testData.get("zipCode").toString();
-//	    try {
-//	        userAddress.setZipCode(Integer.parseInt(zipCodeStr));
-//	    } catch (NumberFormatException e) {
-//	        // Optional: log error
-//	        System.out.println("Invalid zip code format: " + zipCodeStr);
-//	        userAddress.setZipCode(-1); // or some sentinel value
-//	    }
-	    //new
+	    if (testData.containsKey("userFirstName") && testData.get("userFirstName") != null) {
+	        createUser.setUserFirstName(testData.get("userFirstName").toString());
+	    }
+	    if (testData.containsKey("userLastName") && testData.get("userLastName") != null) {
+	        createUser.setUserLastName(testData.get("userLastName").toString());
+	    }
+	    if (userContactNumber != null) {
+	        createUser.setUserContactNumber(userContactNumber);
+	    }
+	    if (userEmail != null && !userEmail.isEmpty()) {
+	        createUser.setUserEmailId(userEmail);
+	    }
 
+	    // Address - only add if at least one address field exists
+	    boolean hasAddress = testData.containsKey("plotNumber") ||
+	                         testData.containsKey("street") ||
+	                         testData.containsKey("state") ||
+	                         testData.containsKey("country") ||
+	                         testData.containsKey("zipCode");
 
-	    // Log request JSON
+	    if (hasAddress) {
+	        CreateUser.UserAddress userAddress = new CreateUser.UserAddress();
+
+	        if (testData.containsKey("plotNumber") && testData.get("plotNumber") != null) {
+	            userAddress.setPlotNumber(testData.get("plotNumber").toString());
+	        }
+	        if (testData.containsKey("street") && testData.get("street") != null) {
+	            userAddress.setStreet(testData.get("street").toString());
+	        }
+	        if (testData.containsKey("state") && testData.get("state") != null) {
+	            userAddress.setState(testData.get("state").toString());
+	        }
+	        if (testData.containsKey("country") && testData.get("country") != null) {
+	            userAddress.setCountry(testData.get("country").toString());
+	        }
+	        if (testData.containsKey("zipCode") && testData.get("zipCode") != null) {
+	            try {
+	                userAddress.setZipCode(Integer.parseInt(testData.get("zipCode").toString()));
+	            } catch (NumberFormatException e) {
+	                System.out.println("Invalid zip code format: " + testData.get("zipCode"));
+	                userAddress.setZipCode(-1);
+	            }
+	        }
+	        createUser.setUserAddress(userAddress);
+	    }
+
+	    // Serialize request body for logging
 	    try {
 	        ObjectMapper objectMapper = new ObjectMapper();
-	        String requestBody = objectMapper.writeValueAsString(createUser);
-	        System.out.println("Request Body JSON: " + requestBody);
+	        String requestBodyJson = objectMapper.writeValueAsString(createUser);
+	        System.out.println("Request Body JSON: " + requestBodyJson);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 
-	    // Get endpoint and send request using method param
+	    // Get endpoint, replace user_id placeholder for PUT, PATCH
 	    String endpoint = testData.get("endpoint").toString();
 
 	    Response response;
-///new //# heroapp 503 issue work around  fix
 
-//	    switch (method.toUpperCase()) {
-//	        case "POST":
-//	        case "DELETE":
-//	            response = authRequest.body(createUser).when().request(method, endpoint);
-//
-//	            // Retry logic for Heroku cold start
-//	            if (response.getStatusCode() == 503 || response.asString().contains("Application Error")) {
-//	                System.out.println(" Heroku cold start detected. Retrying after 5 seconds...");
-//	                try {
-//	                    Thread.sleep(5000);
-//	                } catch (InterruptedException e) {
-//	                    Thread.currentThread().interrupt();
-//	                }
-//	                response = authRequest.body(createUser).when().request(method, endpoint);
-//	            }
-//	            break;
-//
-//	        case "GET":
-//	        case "PUT":
-//	        	String userId = TestDataStore.getUserId();
-//	    		 System.out.println("Retrieved User ID to do a PUT request: " + userId);
-//
-//	    		// Get the endpoint from test data and send the PUT request
-//	    		String endpoint_put = testData.get("endpoint").toString().replace("{{user_id}}", userId);
-//	            response = authRequest.body(createUser).when().request(method, endpoint_put);
-//	            System.out.println("Response Status of PUT: " + response.getStatusCode());
-//	            System.out.println("Response Body of PUT: " + response.asString());
-//	        
-//	            break;
-//
-//	        default:
-//	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
-//	    }
-	  ///new//# heroapp 503 issue work around  fix
-
-	    /////working
 	    switch (method.toUpperCase()) {
 	        case "POST":
 	            response = authRequest.body(createUser).when().post(endpoint);
 	            break;
-	        case "GET":
-	            response = authRequest.body(createUser).when().get(endpoint);
-	            break;
-	        case "PUT":
-	        	String userId = TestDataStore.getUserId();
-	    		 System.out.println("Retrieved User ID to do a PUT request: " + userId);
 
-	    		// Get the endpoint from test data and send the PUT request
-	    		String endpoint_put = testData.get("endpoint").toString().replace("{{user_id}}", userId);
-	            response = authRequest.body(createUser).when().request(method, endpoint_put);
-	            System.out.println("Response Status of PUT: " + response.getStatusCode());
-	            System.out.println("Response Body of PUT: " + response.asString());
-	            response = authRequest.body(createUser).when().put(endpoint_put);
+	        case "GET":
+	            // GET requests usually don't have a body - you might want to remove .body(createUser)
+	            response = authRequest.when().get(endpoint);
 	            break;
+
+	        case "PUT":
+	            String userIdPut = TestDataStore.getUserId();
+	            System.out.println("Retrieved User ID for PUT: " + userIdPut);
+	            String endpointPut = endpoint.replace("{{user_id}}", userIdPut);
+	            response = authRequest.body(createUser).when().put(endpointPut);
+	            break;
+
+	        case "PATCH":
+	            String userIdPatch = TestDataStore.getUserId();
+	            System.out.println("Retrieved User ID for PATCH: " + userIdPatch);
+	            String endpointPatch = endpoint.replace("{{user_id}}", userIdPatch);
+	            response = authRequest.body(createUser).when().patch(endpointPatch);
+	            break;
+
 	        case "DELETE":
-	            response = authRequest.body(createUser).when().delete(endpoint);
+	            response = authRequest.when().delete(endpoint);
 	            break;
+
 	        default:
 	            throw new IllegalArgumentException("Invalid HTTP method: " + method);
 	    }
-	    /////working
 
 	    return response;
 	}
+
 	
 	public Response updateRequestBody(String scenario, String authType) {
 		testData = JsonReader.getScenarioData(scenario);

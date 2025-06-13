@@ -2,6 +2,38 @@
     {
         "requests": [
             {
+                "name": "PatchUsers",
+                "data": [
+                    {
+                        "scenario": "patchfirstname",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "userFirstName": "mayaupdated",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchlastname",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "userLastName": "mayaupdatedlastname",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    },
+                    {
+                        "scenario": "patchphonenumber",
+                        "endpoint": "/uap/updateuserfields/{{user_id}}",
+                        "userContactNumber": "1034567891",
+                        "statusCode": 200,
+                        "statusText": "OK",
+                        "authType": "Basic Auth",
+                        "method": "PATCH"
+                    }
+                ]
+            },
+            {
                 "name": "GetAllUsers",
                 "data": [
                     {
