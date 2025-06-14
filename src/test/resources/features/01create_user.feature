@@ -1,6 +1,5 @@
 Feature: User Management API - Create new User
 
- 
   Scenario: Validate create a user with all valid credentials
     Given Admin set the POST request with the valid request body
     When Admin sends a POST request with body to endpoint
@@ -25,78 +24,58 @@ Feature: User Management API - Create new User
     Given Admin set the POST request with the valid request body
     When Admin sends GET Request and request Body with invalid request type
     Then The response status code should be "405" Status
-@stateChanging
+
   Scenario: Validate create a user  with same contact number
     Given Admin set the POST request with the valid request body
     When Admin sends POST Request and request Body with same contact number
     Then The response status code should bes "409" status User already exist with same contact number
-    
-    @stateChanging
-		 Scenario:  Validate create a user with same email
-		 Given Admin set the POST request with the valid request body
-		 When Admin sends POST Request and request Body with same email
-		 Then The response status code should be "409" Status  User already exist with same email
-    
-   
-    @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with No Auth
+
+  Scenario: Validate create a user with same email
+    Given Admin set the POST request with the valid request body
+    When Admin sends POST Request and request Body with same email
+    Then The response status code should be "409" Status  User already exist with same email
+
+  Scenario: Validate create a user with No Auth
     Given Admin set the POST request with the valid request body with no Auth
     When Admin sends POST Request and request Body with invalid auth
     Then The response status code should be "401" Status
-    
-    @run # heroapp 503 issue work around  fix
-    Scenario:  Validate create a user with invalid first name 
+
+  Scenario: Validate create a user with invalid first name
     Given Admin set the POST request with the valid request body
     When Admin sends POST Request with request Body invalid firstname
-    Then The response status code should be "400" Status	
-    
-    @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with invalid last name 
+    Then The response status code should be "400" Status
+
+  Scenario: Validate create a user with invalid last name
     Given Admin set the POST request with the valid request body
-    When Admin sends POST Request and request Body with last name as numeric 
-    Then The response status code should be "400" Status	
-    
-    
-     @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with invalid contact number 
+    When Admin sends POST Request and request Body with last name as numeric
+    Then The response status code should be "400" Status
+
+  Scenario: Validate create a user with invalid contact number
     Given Admin set the POST request with the valid request body
-    When Admin sends POST Request and request Body with invalid contact number 
-    Then The response status code should be "400" Status	
-    
-     #TO TEST worked with heroka fix
-     @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with invalid  email format
+    When Admin sends POST Request and request Body with invalid contact number
+    Then The response status code should be "400" Status
+
+  Scenario: Validate create a user with invalid  email format
     Given Admin set the POST request with the valid request body
     When Admin sends POST Request and request Body with invalid email format
-    Then The response status code should be "400" Status	
-    
-    @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user  with invalid plot number
+    Then The response status code should be "400" Status
+
+  Scenario: Validate create a user  with invalid plot number
     Given Admin set the POST request with the valid request body
     When Admin sends POST Request and request Body with invalid plot number
     Then The response status code should be "400" Status
-    	
-     @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with invalid street 
+
+  Scenario: Validate create a user with invalid street
     Given Admin set the POST request with the valid request body
-    When Admin sends POST Request and request Body with invalid Street 
+    When Admin sends POST Request and request Body with invalid Street
     Then The response status code should be "400" Status
-    
-    @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with invalid State 
+
+  Scenario: Validate create a user with invalid State
     Given Admin set the POST request with the valid request body
-    When Admin sends POST Request and request Body with invalid state 
+    When Admin sends POST Request and request Body with invalid state
     Then The response status code should be "400" Status
-    
-        @stateChanging # heroapp 503 issue work around  fix
-    Scenario: Validate create a user with invalid country 
+
+  Scenario: Validate create a user with invalid country
     Given Admin set the POST request with the valid request body
-    When Admin sends POST Request and request Body with invalid country 
+    When Admin sends POST Request and request Body with invalid country
     Then The response status code should be "400" Status
-    
-     #@stateChanging # heroapp 503 issue work around  fix  ==>> not working coz of zipcode int pojo
-    #Scenario: Validate create a user with invalid zipcode 
-    #Given Admin set the POST request with the valid request body
-    #When Admin sends POST Request and request Body with invalid zipcode 
-    #Then The response status code should be "400" Status
-    

@@ -1,0 +1,7 @@
+# Ignore the below files/directory to git
+.classpath
+.project
+.settings/
+allure-results/
+target/
+test-output/

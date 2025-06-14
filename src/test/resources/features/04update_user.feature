@@ -1,6 +1,5 @@
 Feature: User Management API - Update  User
 
-  #@stateChanging # heroapp 503 issue work around  fix
   Scenario: Verify update a user with all valid credentials
     Given Admin set the PUT request with the valid request body
     When Admin sends PUT Request with request Body
@@ -80,57 +79,56 @@ Feature: User Management API - Update  User
     Given Admin set the PUT request with the valid request body
     When Admin sends PUT Request with request Body with emailid numeric
     Then The response status code should be "400" Status code update
-    
-    Scenario: Verify update a user with emailid  numeric
+
+  Scenario: Verify update a user with emailid  numeric
     Given Admin set the PUT request with the valid request body
     When Admin sends PUT Request with request Body with emailid numeric
     Then The response status code should be "400" Status code update
-    
-    Scenario: Verify update a user with empty  firstname
+
+  Scenario: Verify update a user with empty  firstname
     Given Admin set the PUT request with the valid request body
     When Admin sends PUT Request with request Body  with empty  firstname
     Then The response status code should be "400" Status code update
-    
-    Scenario: Verify update a user with empty  lastname
+
+  Scenario: Verify update a user with empty  lastname
     Given Admin set the PUT request with the valid request body
     When Admin sends PUT Request with request Body  with empty  lastname
     Then The response status code should be "400" Status code update
-    
-     Scenario: Verify update a user with empty  contact number
+
+  Scenario: Verify update a user with empty  contact number
     Given Admin set the PUT request with the valid request body
     When Admin sends PUT Request with request Body  with empty  contact number
     Then The response status code should be "400" Status code update
-    
-      Scenario: Verify update a user with empty  emailid 
+
+  Scenario: Verify update a user with empty  emailid
     Given Admin set the PUT request with the valid request body
-    When Admin sends PUT Request with request Body  with empty  emailid 
+    When Admin sends PUT Request with request Body  with empty  emailid
     Then The response status code should be "400" Status code update
-    
-      Scenario: Verify update a user with invalid  emailid 
+
+  Scenario: Verify update a user with invalid  emailid
     Given Admin set the PUT request with the valid request body
-    When Admin sends PUT Request with request Body  with invalid  emailid 
+    When Admin sends PUT Request with request Body  with invalid  emailid
     Then The response status code should be "400" Status code update
-    
-      Scenario: Verify update a user with invalid  phone number 
+
+  Scenario: Verify update a user with invalid  phone number
     Given Admin set the PUT request with the valid request body
-    When Admin sends PUT Request with request Body  with invalid   phone number  
+    When Admin sends PUT Request with request Body  with invalid   phone number
     Then The response status code should be "400" Status code update
-    
-       Scenario: Verify update a user with invalid  state 
+
+  Scenario: Verify update a user with invalid  state
     Given Admin set the PUT request with the valid request body
-    When Admin sends PUT Request with request Body  with invalid  state 
+    When Admin sends PUT Request with request Body  with invalid  state
     Then The response status code should be "400" Status code update
-    
-        Scenario: Verify update a user with invalid  country 
+
+  Scenario: Verify update a user with invalid  country
     Given Admin set the PUT request with the valid request body
-    When Admin sends PUT Request with request Body  with invalid  country 
+    When Admin sends PUT Request with request Body  with invalid  country
     Then The response status code should be "400" Status code update
-    
-          Scenario: Verify update a user with invalid  endpoint 
+
+  Scenario: Verify update a user with invalid  endpoint
     Given Admin set the PUT request with the valid request body
-    When Admin sends PUT Request with request Body  with invalid  endpoint 
+    When Admin sends PUT Request with request Body  with invalid  endpoint
     Then The response status code should be "404" Status code update
-    
 
   Scenario: Check if Admin is able to update a user with No Auth
     Given Admin set the PUT request with the valid request body with no Auth
