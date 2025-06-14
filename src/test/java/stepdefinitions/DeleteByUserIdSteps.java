@@ -29,6 +29,7 @@ public class DeleteByUserIdSteps {
 			String userId = TestDataStore.getUserId();
 			System.out.println("Retrieved User ID for delete user: " + userId);
 			String endpoint = testData.get("endpoint").toString().replace("{{user_id}}", userId);
+			//response = apihelper.sendRequest("valid delete by userid", "valid","PATCH");
 			response = request.when().delete(endpoint);
 			return response;
 	 }

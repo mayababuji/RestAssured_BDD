@@ -1,6 +1,6 @@
 Feature: User Management API - Create new User
 
- @patch
+ 
   Scenario: Validate create a user with all valid credentials
     Given Admin set the POST request with the valid request body
     When Admin sends a POST request with body to endpoint
@@ -44,7 +44,7 @@ Feature: User Management API - Create new User
     When Admin sends POST Request and request Body with invalid auth
     Then The response status code should be "401" Status
     
-    @stateChanging # heroapp 503 issue work around  fix
+    @run # heroapp 503 issue work around  fix
     Scenario:  Validate create a user with invalid first name 
     Given Admin set the POST request with the valid request body
     When Admin sends POST Request with request Body invalid firstname

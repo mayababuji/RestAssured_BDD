@@ -45,6 +45,7 @@ public class GetAllUsersSteps {
         //response = request.when().get(endpoint);
     	testData = JsonReader.getScenarioData("get all users valid end point");
 		String endpoint = testData.get("endpoint").toString();
+		//response = apihelper.sendRequest("get all users valid end point", "valid","GET");
 		response = request.when().get(endpoint);
 		return response;
     }
