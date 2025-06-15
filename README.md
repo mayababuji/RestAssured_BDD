@@ -66,10 +66,9 @@ This project is a **REST Assured-based API Test Automation Framework** using **C
 
 ##  Hooks
 
-* Contains `@Before` and `@After` hooks for:
+* Contains `@Before`  for:
 
-  * Initializing scenario-specific data
-  * Cleaning up test data
+
   * Logging request/response for debugging
 
 ---
